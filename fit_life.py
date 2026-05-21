@@ -76,4 +76,3 @@ result_message = (
 )
 
 print(result_message)
-print()
