@@ -1,6 +1,5 @@
 # Проект FitLife - MVP версия 1.0
 
-# 0. Константы
 
 MILLILITERS_IN_LITER = 1000
 DAILY_WATER_NEEDED_PER_KG_IN_MILLILITERS = 30
@@ -9,37 +8,102 @@ DAILY_WATER_NEEDED_PER_KG_IN_LITERS = (
     DAILY_WATER_NEEDED_PER_KG_IN_MILLILITERS / MILLILITERS_IN_LITER
 )
 
-# 1. Знакомство
 
-# TODO: Спроси у пользователя имя и сохрани в переменную user_name
-user_name = input(
-    "Приветствую тебя в проекте FitLife! "
-    "Для начала напиши как тебя зовут."
-)
+def collect_user_name():
+    """Collect user's name"""
+    user_name = input(
+        "Приветствую вас в проекте FitLife! "
+        "Для начала напишите как вас зовут."
+    )
 
-# TODO: Спроси возраст и сохрани в переменную user_age
-# (не забудь преобразовать в число)
-user_age = int(input(
-    "Сколько тебе лет?"
-))
+    return user_name
 
-# 2. Сбор данных
 
-# TODO: Запроси вес (в кг) и сохрани в user_weight (тип float)
-user_weight = float(input(
-    "Какой твой вес в кг? (Например 70)"
-))
+def collect_user_age():
+    """Collect user's age."""
+    while True:
+        user_age = input(
+            "Сколько вам лет?"
+        )
 
-# TODO: Запроси рост (в метрах, например 1.75)
-#  и сохрани в user_height (тип float)
-user_height = float(input(
-    "Какой твой рост в метрах? (Например 1.75)"
-))
+        try:
+            user_age = int(user_age)
+        except ValueError:
+            print(
+                "Произошла ошибка.\n"
+                "Убедитесь что вводите целое число.\n"
+                "Например: 25"
+            )
+            continue
 
-# 3. Логика расчетов (Функции как "черный ящик": используем арифметику)
+        if user_age <= 0:
+            print(
+                "Ваш возраст должен быть больше чем 0."
+            )
+            continue
 
-# Формула ИМТ: вес разделить на (рост в квадрате)
-# TODO: Рассчитай bmi (Индекс массы тела)
+        break
+
+    return user_age
+
+
+def collect_user_weight():
+    """Collect user's weight."""
+    while True:
+        user_weight = input(
+            "Какой ваш вес в кг?\n"
+            "Например: 70"
+        )
+
+        try:
+            user_weight = float(user_weight)
+        except ValueError:
+            print(
+                "Произошла ошибка.\n"
+                "Убедитесь что ввели либо целое число, "
+                "либо дробное через точку.\n"
+                "Например: 70 или 70.5."
+            )
+            continue
+
+        if user_weight <= 0:
+            print(
+                "Убедитесь что вводите вес больше 0 кг."
+            )
+            continue
+
+        break
+
+    return user_weight
+
+
+def collect_user_height():
+    """Collect user's height."""
+    while True:
+        user_height = input(
+            "Какой ваш рост в метрах?\n"
+            "Например: 1.75"
+        )
+
+        try:
+            user_height = float(user_height)
+        except ValueError:
+            print(
+                "Произошла ошибка.\n"
+                "Убедитесь что ввели дробное число через точку.\n"
+                "Наример: 1.75."
+            )
+            continue
+
+        if user_height <= 0:
+            print(
+                "Убедитесь что вводите рост выше 0 метров."
+            )
+            continue
+
+        break
+
+    return user_height
 
 
 def calculate_bmi(user_weight, user_height):
@@ -48,31 +112,32 @@ def calculate_bmi(user_weight, user_height):
     return round(bmi, 1)
 
 
-bmi = calculate_bmi(user_weight, user_height)
-
-# Подсчет воды: вес * 30 мл
-# TODO: Рассчитай water_needed
-
-
 def calculate_daily_water_needed_in_liters(user_weight):
     """Return daily water recommendation."""
     water_needed = (user_weight * DAILY_WATER_NEEDED_PER_KG_IN_LITERS)
     return round(water_needed, 2)
 
 
-water_needed = calculate_daily_water_needed_in_liters(user_weight)
+def main():
+    """Main scenario"""
+    user_name = collect_user_name()
+    user_age = collect_user_age()
+    user_height = collect_user_height()
+    user_weight = collect_user_weight()
 
-# 4. Вывод красивого результата
+    bmi = calculate_bmi(user_weight, user_height)
+    water_needed = calculate_daily_water_needed_in_liters(user_weight)
 
-# TODO: Используй f-строку, чтобы
-# вывести приветствие, например: "Привет, Иван!"
-# TODO: Выведи возраст, ИМТ (округленный до 1 знака) и норму воды.
-result_message = (
-    f"{user_name}, можете ознакомиться с результатами!\n\n"
-    f"- Ваш возраст: {user_age} года\n"
-    f"- Индекс Массы Тела (ИМТ): {bmi}\n"
-    f"- Рекомендуемая дневная норма воды: {water_needed} литра.\n\n"
-    "Расчет окончен. Будьте здоровы!"
-)
+    result_message = (
+        f"{user_name}, можете ознакомиться с результатами!\n\n"
+        f"- Ваш возраст: {user_age} года\n"
+        f"- Индекс Массы Тела (ИМТ): {bmi}\n"
+        f"- Рекомендуемая дневная норма воды: {water_needed} литра.\n\n"
+        "Расчет окончен. Будьте здоровы!"
+    )
 
-print(f"{result_message}")
+    print(f"{result_message}")
+
+
+if __name__ == "__main__":
+    main()
