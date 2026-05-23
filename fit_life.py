@@ -120,8 +120,8 @@ def main():
     """Main scenario"""
     user_name = collect_user_name()
     user_age = collect_user_age()
-    user_height = collect_user_height()
     user_weight = collect_user_weight()
+    user_height = collect_user_height()
 
     bmi = calculate_bmi(user_weight, user_height)
     water_needed = calculate_daily_water_needed_in_liters(user_weight)
